@@ -2,8 +2,8 @@ import { StyleSheet } from "react-native";
 
 const style = StyleSheet.create({
     input: {
-        borderWidth: 1,
-        borderColor: 'red',
+        borderWidth: .5,
+        borderColor: 'green',
         padding: 10,
         marginHorizontal: 20,
         marginVertical: 10,

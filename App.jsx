@@ -5,7 +5,7 @@
  * @format
  */
 
-import { StatusBar, useColorScheme, FlatList } from 'react-native';
+import { StatusBar, useColorScheme, FlatList, Text } from 'react-native';
 import {
   SafeAreaProvider,
   SafeAreaView,
@@ -15,11 +15,15 @@ import SubmitTodo from './components/SubmitTodo/SubmitTodo';
 import ListTodo from './components/ListTodo/ListTodo';
 import { useState } from 'react';
 import ContextTodo from './contexts/ContextTodo';
+import { MMKVLoader, useMMKVStorage } from 'react-native-mmkv-storage';
+import { ImageBackground } from 'react-native/types_generated/index';
 
+const storage = new MMKVLoader().initialize();
+// const image = {url: './components/Stockage/chat.jpg'}
 function App() {
-
   const isDarkMode = useColorScheme() === 'dark';
-  const [list, setList] = useState([]);
+  // const [list, setList] = useState([]);
+  const [list, setList] = useMMKVStorage('list', storage, []);
   const [textInput, setTextInput] = useState('');
 
   const handleSubmit = () => {
@@ -30,7 +34,6 @@ function App() {
         id: (list[list.length - 1].id + 1),
         content: textInput,
         active: false
-        
       }
 
     } else {
@@ -43,11 +46,42 @@ function App() {
     }
     setList([...list, item]);
   }
-  
+
+  const toggleSwitch = (id) => {
+    console.log('>>> toogleSwitch', id)
+    const listTmp = list.map((item) => {
+      if (item.id === id) {
+        item.active = !item.active
+      }
+      return item;
+    })
+    setList(listTmp);
+  }
+
+  const deleteEntrie = (id) => {
+    console.log('>>> deleteEntrie')
+    let indexTmp;
+    const listTmp = list.map((item) => {
+
+      if (item.id === id) {
+        console.log('>>> ToDelete', item)
+        indexTmp = id
+      }
+      return item;
+
+
+    })
+    listTmp.splice(indexTmp, 1);
+    setList(listTmp)
+    console.log('>table1', list)
+    console.log('>table2', listTmp)
+  }
+
   return (
     <SafeAreaProvider >
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <SafeAreaView>
+      <SafeAreaView >
+    {/* <ImageBackground source={image} resizeMode="cover"> */}
 
         <ContextTodo.Provider value={
           {
@@ -55,14 +89,18 @@ function App() {
             setList: setList,
             textInput: textInput,
             setTextInput: setTextInput,
-            handleSubmit: handleSubmit
+            handleSubmit: handleSubmit,
+            toggleSwitch: toggleSwitch,
+            deleteEntrie: deleteEntrie
           }}>
 
+          <Text style={{textAlign:'center', padding: 10, fontSize: 28, color: 'black', backgroundColor: ''}}>Ma liste📋😺</Text>
           <InputTodo></InputTodo>
           <SubmitTodo></SubmitTodo>
           <ListTodo></ListTodo>
 
         </ContextTodo.Provider>
+    {/* </ImageBackground> */}
 
       </SafeAreaView>
     </SafeAreaProvider>

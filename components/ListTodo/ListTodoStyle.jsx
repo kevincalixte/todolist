@@ -8,9 +8,24 @@ const style = StyleSheet.create({
         borderRadius: 5,
     },
     text: {
-        // color: 'white',
-        fontSize: 18,
-        textAlign: 'center',
+        color: 'gray',
+        fontSize: 14,
+    },
+    line: {
+        padding: 10,
+        borderRadius: 5
+    },
+    item: {
+        backgroundColor: 'white',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: 2,
+        marginVertical: 5,
+    },
+    button: {
+    backgroundColor: 'rgba(255, 0, 0, 0.4)',
     }
+
 })
 export default style;
