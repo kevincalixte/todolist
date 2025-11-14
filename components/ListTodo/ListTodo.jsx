@@ -6,7 +6,7 @@ import { CheckBox, Button } from 'react-native-paper';
 
 const Item = (props) => {
 
-    console.log(props.article)
+    // console.log(props.article)
     return (
         <Text style={style.text}>{props.article.content}</Text>
     )
